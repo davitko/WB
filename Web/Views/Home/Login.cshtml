@@ -1,0 +1,79 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--   Custom Styles-->
+<link type="text/css" rel="stylesheet" href="~/content/styles/logIn.css">
+
+<div class="row logIn-frame">
+    <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                Login
+            </div>
+            <div class="panel-body pan">
+                <form method="post" action="/login">
+                    <div class="form-body pal">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-icon right">
+                                    <input type="text" id="email" name="email" placeholder="email" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-icon right">
+                                    <input type="password" id="password" name="password" class="form-control" />
+                                </div>
+                                <span class="help-block mbn"><a href="#"><small>Forgot password?</small> </a></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 check-box-in-form">
+                                <div class="checkbox">
+                                    <label>
+                                        <input tabindex="5" type="checkbox" />&nbsp; Keep me logged in
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions pal btn-logIn-frame">
+                        <div class="form-group mbn">
+                            <div class="col-lg-3 col-lg-offset-9  col-md-4 col-md-offset-8">
+                                <button type="submit" class="btn btn-primary btn-form-submit">Login</button>
+                                @{
+                                    if (ViewBag.loginFailed)
+                                    {
+                                        <span>Login failed</span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*<input type="text" id="email" name="email" placeholder="email" />
+                        <br />
+                        <input type="password" id="password" name="password" />
+                        <br />
+                        <button type="submit">Login</button>
+                        @{
+                            if (ViewBag.loginFailed)
+                            {
+                                <span>Login failed</span>
+                            }
+                        }*@
+                </form>
+                <!--END OF INPUT FORM-->
+
+
+
+            </div>
+            <!--END PANEL BODY-->
+        </div>
+        <!--END OF PANEL-->
+    </div>
+</div>
+<!--END OF LogIn FRAME-->

@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <h1>Welcome Wunderbar</h1>
+    <h2>Informations:</h2>
+    <p>Application id: {{vm.applicationId}}</p>
+    <p>User id: {{vm.userId}}</p>
+
+
+    <h4>Enter credentials and hit enter:</h4>
+    <p>Email Validation: {{vm.emailCheck}}</p>
+    <input type="email" ng-model="userEmail" name="userEmail" />
+    <button type="button" ng-click="vm.checkEmail(userEmail)">checkEmail</button>
+    <h5>Validation results:</h5>
+    <p>Email exists: {{vm.userEmailExists.exists}}</p>
+    <p>User email: {{vm.userEmail}}</p>
+    <button type="button" ng-click="vm.checkUserProperties()">User Properties</button>
+
+    <p>Measurements:</p>
+    <li ng-repeat="dataMeasurement in vm.dataMeasurements">{{::dataMeasurement}}</li>
+    <p> Devices: </p>
+    <li ng-repeat="wbDevices in vm.wbDevices">{{::wbDevices}}</li>
+
+
+</body>
+</html>

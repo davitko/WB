@@ -1,0 +1,86 @@
+/*!
+ * Start Bootstrap - Full Slider HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+html, body {
+    height: 100%;
+}
+
+html {
+    font-size: .7vw;
+}
+
+body {
+    background: url('../images/bg-welcome-1.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+
+.carousel, .item, .active {
+    height: 100%;
+}
+
+.carousel-inner {
+    height: 100%;
+}
+
+.fill {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+.welcome-content {
+    position: absolute;
+    z-index: 1000;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    height: 150px;
+}
+
+.welcome-button {
+    text-align: center;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.btn-welcome {
+    background: rgba(200,200,200,0.4);
+    height: 70px;
+    width: 200px;
+    margin: 20px 50px;
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 3rem;
+    font-family: 'Pacifico',cursive;
+    font-family: 'Lobster',cursive;
+}
+
+.welcome-title {
+    font-family: 'Montserrat',sans-serif;
+    color: #fff;
+    margin: 20px 0;
+}
+
+    .welcome-title h1 {
+        font-size: 7rem;
+        font-weight: 700;
+        text-shadow: 5px 5px 5px rgba(255,255,255,0.3);
+    }

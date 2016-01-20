@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!--    Fonts -->
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <!--    Styles-->
+    <!--Loading bootstrap css-->
+    <link type="text/css" rel="stylesheet" href="~/content/styles/bootstrap.min.css">
+    <!--Loading font css-->
+    <link type="text/css" rel="stylesheet" href="~/content/styles/font-awesome.min.css">
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    <script src="~/scripts/jquery-1.11.3.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <script src="~/scripts/relayr.min.js"></script>
+    <script src="~/scripts/relayr-browser-sdk.min.js"></script>
+    <!-- Script to Activate the Carousel -->
+    <script>
+        $('.carousel').carousel({
+            interval: 4000 //changes the speed
+        })
+    </script>
+</body>
+</html>
