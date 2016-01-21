@@ -4,11 +4,15 @@
 
     interface IWunderBar {
         /// Variables for:
-         
+		 
         // APP ID / OAUTHT CLIENT ID
         applicationId: string; 
         // Account ID
         userId: string;
+        // Temperature Device ID
+        tempDeviceId: string;
+        // User token
+        token: string;
         // Wunderbar devices
         wbDevices: any[];
         // Measurements from device
@@ -19,7 +23,7 @@
         emailCheck: string;
         // User Properties
         userProperties: string;
-        
+		
         /// Functions: 
         // Verify email
         checkEmail: (email: string) => void;
@@ -49,9 +53,13 @@
 
     class WunderbarController implements IWunderBar {
         /// APP ID / OAUTHT CLIENT ID
-        applicationId = 'e94c0d7d-7778-4ac5-8640-ca13d658bb08';
+        applicationId = '1ee793be-aba4-422f-a775-ddc448006fd0';
         // Account ID
-        userId = 'cb74d127-da0d-46e7-9cc9-54acfcce2a1b';
+        userId = '084257a1-a100-40a6-bd54-ec6018bc181a';
+        // Device ID
+        tempDeviceId = '77262bfa-f7ac-4bae-a6fb-c5999e3aaddd';
+        // User token
+        token = '8IBG3kct-JmrRy_cU5-IoLN708Z9_fAn';
         /// Wunderbar devices
         wbDevices = [];
         /// Measurements from device
@@ -80,14 +88,14 @@
             //this.wbDevices = this.getAllWBDevices();
             this.dataMeasurements = ['Measurement1', 'Measurement2', 'Measurement3'];
             //this.dataMeasurements = this.getAllMeasurements();
-            
+			
         }
 
         // *********************************************************************************
         // *****************  Verify email of user functions *******************************
         // *********************************************************************************
         checkEmail(email: string): void {
-            console.log("CheckEmail fucntion runing", email);
+            console.log("CheckEmail function running", email);
 
             var relayr = RELAYR.init({
                 appId: this.applicationId,
@@ -129,6 +137,7 @@
             if (this.userEmailExists.exists == "false") {
                 this.userEmail = '';
             }
+            //this.checkUserProperties();
         }
         // --- End of Verify email of user functions ---
 
@@ -136,15 +145,29 @@
         // ***************  Get information of user functions ******************************
         // *********************************************************************************
         checkUserProperties(): void {
+            console.log("checkUserProperties function running");
+            var relayr = RELAYR.init({
+                appId: this.applicationId,
+                redirectUri: 'http://localhost',
+            });
+
+            relayr.login({
+                success: function (token) {
+                    this.performRequestUserProperties();
+                }
+            });
+        }
+
+        performRequestUserProperties() {
+            console.log("performRequestUserProperties function running");
             this.request = new XMLHttpRequest();
             this.request.open('GET', 'https://api.relayr.io/oauth2/user-info');
             this.request.onreadystatechange = () => this.OnRStateChangecheckUserProperties();
             this.request.send();
-
         }
-
         // When server will respond, JS will execute only this function
         OnRStateChangecheckUserProperties() {
+            console.log("OnRStateChangecheckUserProperties function running");
             if (this.request.readyState === 4 && this.request.status == 200) {
                 console.log('Status:', this.request.status);
                 console.log('Headers:', this.request.getAllResponseHeaders());
@@ -153,8 +176,11 @@
             this.Scope.$apply();
         }
 
+        // *********************************************************************************
+        // ***************  Get all Wunderbar devices of user ******************************
+        // *********************************************************************************
         getAllWBDevices(): void {
-            console.log("Get Wunderbar devices function runing");
+            console.log("Get Wunderbar devices function running");
 
             var relayr = RELAYR.init({
                 appId: this.applicationId,
@@ -163,8 +189,6 @@
 
             // Call function for AJAX request
             this.performRequestDevices('asasd');
-
-
 
 
             var tmpDevices = '';
@@ -198,51 +222,35 @@
             this.request.send();
         }
 
+        // *********************************************************************************
+        // ***************  Get data from device  ******************************************
+        // *********************************************************************************
         getAllMeasurements(): void {
             debugger;
+            console.log("getAllMeasurements function runing");
+
+            //If you have a token and your device ID, you can start listening to your device without going through the login process
             var relayr = RELAYR.init({
-                appId: this.applicationId
+                appId: this.applicationId,
+                redirectUri: 'http://localhost',
             });
 
-            var tmpMeasurements;
+            var temp;
 
+            //Temp
             relayr.devices().getDeviceData({
-
-                deviceId: "ee7e9562-2b95-4c93-a1d3-fdbaaea5c160",
-                token: "UCFSuY4-Ej9PVvbAS5aMsUKhHjuLD1pj",
+                token: this.token,
+                deviceId: this.tempDeviceId,
                 incomingData: function (data) {
+                    temp = data.readings[0].value;
+                    $("#temp").html((temp).toFixed(1).toString());
 
-                    var request = new XMLHttpRequest();
 
-                    request.open('GET', 'https://api.relayr.io/devices/deviceId');
 
-                    request.onreadystatechange = function () {
-                        if (this.readyState === 4) {
-                            console.log('Status:', this.status);
-                            console.log('Headers:', this.getAllResponseHeaders());
-                            console.log('Body:', this.responseText);
-                        }
 
-                    };
-
-                    request.send();
-
-                    //if (data) {
-                    //    console.log("Data from sensor: ", data);
-                    //    this.tmpMeasurements = data;
-                    //} else {
-                    //    console.log("Data is unavailable!");
-                    //    this.tmpMeasurements = ["Data is unavailable!"];
-                    //}
                 }
-            })
-
-
+            });
         }
-
-
-
-
     }
 
     angular

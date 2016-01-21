@@ -10,9 +10,13 @@
         var WunderbarController = (function () {
             function WunderbarController($scope, $http) {
                 /// APP ID / OAUTHT CLIENT ID
-                this.applicationId = 'e94c0d7d-7778-4ac5-8640-ca13d658bb08';
+                this.applicationId = '1ee793be-aba4-422f-a775-ddc448006fd0';
                 // Account ID
-                this.userId = 'cb74d127-da0d-46e7-9cc9-54acfcce2a1b';
+                this.userId = '084257a1-a100-40a6-bd54-ec6018bc181a';
+                // Device ID
+                this.tempDeviceId = '77262bfa-f7ac-4bae-a6fb-c5999e3aaddd';
+                // User token
+                this.token = '8IBG3kct-JmrRy_cU5-IoLN708Z9_fAn';
                 /// Wunderbar devices
                 this.wbDevices = [];
                 /// Measurements from device
@@ -37,7 +41,7 @@
             // *****************  Verify email of user functions *******************************
             // *********************************************************************************
             WunderbarController.prototype.checkEmail = function (email) {
-                console.log("CheckEmail fucntion runing", email);
+                console.log("CheckEmail function running", email);
 
                 var relayr = RELAYR.init({
                     appId: this.applicationId,
@@ -84,6 +88,7 @@
                 if (this.userEmailExists.exists == "false") {
                     this.userEmail = '';
                 }
+                //this.checkUserProperties();
             };
 
             // --- End of Verify email of user functions ---
@@ -91,7 +96,22 @@
             // ***************  Get information of user functions ******************************
             // *********************************************************************************
             WunderbarController.prototype.checkUserProperties = function () {
+                console.log("checkUserProperties function running");
+                var relayr = RELAYR.init({
+                    appId: this.applicationId,
+                    redirectUri: 'http://localhost'
+                });
+
+                relayr.login({
+                    success: function (token) {
+                        this.performRequestUserProperties();
+                    }
+                });
+            };
+
+            WunderbarController.prototype.performRequestUserProperties = function () {
                 var _this = this;
+                console.log("performRequestUserProperties function running");
                 this.request = new XMLHttpRequest();
                 this.request.open('GET', 'https://api.relayr.io/oauth2/user-info');
                 this.request.onreadystatechange = function () {
@@ -102,6 +122,7 @@
 
             // When server will respond, JS will execute only this function
             WunderbarController.prototype.OnRStateChangecheckUserProperties = function () {
+                console.log("OnRStateChangecheckUserProperties function running");
                 if (this.request.readyState === 4 && this.request.status == 200) {
                     console.log('Status:', this.request.status);
                     console.log('Headers:', this.request.getAllResponseHeaders());
@@ -110,8 +131,11 @@
                 this.Scope.$apply();
             };
 
+            // *********************************************************************************
+            // ***************  Get all Wunderbar devices of user ******************************
+            // *********************************************************************************
             WunderbarController.prototype.getAllWBDevices = function () {
-                console.log("Get Wunderbar devices function runing");
+                console.log("Get Wunderbar devices function running");
 
                 var relayr = RELAYR.init({
                     appId: this.applicationId,
@@ -154,38 +178,28 @@
                 this.request.send();
             };
 
+            // *********************************************************************************
+            // ***************  Get data from device  ******************************************
+            // *********************************************************************************
             WunderbarController.prototype.getAllMeasurements = function () {
                 debugger;
+                console.log("getAllMeasurements function runing");
+
+                //If you have a token and your device ID, you can start listening to your device without going through the login process
                 var relayr = RELAYR.init({
-                    appId: this.applicationId
+                    appId: this.applicationId,
+                    redirectUri: 'http://localhost'
                 });
 
-                var tmpMeasurements;
+                var temp;
 
+                //Temp
                 relayr.devices().getDeviceData({
-                    deviceId: "ee7e9562-2b95-4c93-a1d3-fdbaaea5c160",
-                    token: "UCFSuY4-Ej9PVvbAS5aMsUKhHjuLD1pj",
+                    token: this.token,
+                    deviceId: this.tempDeviceId,
                     incomingData: function (data) {
-                        var request = new XMLHttpRequest();
-
-                        request.open('GET', 'https://api.relayr.io/devices/deviceId');
-
-                        request.onreadystatechange = function () {
-                            if (this.readyState === 4) {
-                                console.log('Status:', this.status);
-                                console.log('Headers:', this.getAllResponseHeaders());
-                                console.log('Body:', this.responseText);
-                            }
-                        };
-
-                        request.send();
-                        //if (data) {
-                        //    console.log("Data from sensor: ", data);
-                        //    this.tmpMeasurements = data;
-                        //} else {
-                        //    console.log("Data is unavailable!");
-                        //    this.tmpMeasurements = ["Data is unavailable!"];
-                        //}
+                        temp = data.readings[0].value;
+                        $("#temp").html((temp).toFixed(1).toString());
                     }
                 });
             };

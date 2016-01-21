@@ -18,6 +18,8 @@
     <p>Email exists: {{vm.userEmailExists.exists}}</p>
     <p>User email: {{vm.userEmail}}</p>
     <button type="button" ng-click="vm.checkUserProperties()">User Properties</button>
+    <button type="button" ng-click="vm.getAllMeasurements()">Get data</button>
+    <span id="temp">Temperature: unknown</span>
 
     <p>Measurements:</p>
     <li ng-repeat="dataMeasurement in vm.dataMeasurements">{{::dataMeasurement}}</li>
